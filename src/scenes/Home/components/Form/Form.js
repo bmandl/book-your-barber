@@ -3,7 +3,8 @@ import { useForm } from "react-hook-form";
 
 const Form = () => {
     const { register, handleSubmit, watch, errors } = useForm();
-
+    const mailRegex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/; //from https://emailregex.com/
+    const phoneRegex = /^(([0-9]{3})[ \-\/]?([0-9]{3})[ \-\/]?([0-9]{3}))|([0-9]{9})|([\+]?([0-9]{3})[ \-\/]?([0-9]{2})[ \-\/]?([0-9]{3})[ \-\/]?([0-9]{3}))$/;
     const onSubmit = data => {
         console.log(JSON.stringify(data));
     }
@@ -13,8 +14,8 @@ const Form = () => {
             <form onSubmit={handleSubmit(onSubmit)}>
                 <input type="text" name="firstname" ref={register({required:true})} />
                 <input type="text" name="lastname" ref={register({required:true})} />
-                <input type="email" name="email" ref={register({required:true, })} />
-                <input type="number" name="number" ref={register({required:true, pattern:/ /})} />
+                <input type="email" name="email" ref={register({required:true, pattern: mailRegex })} />
+                <input type="number" name="number" ref={register({required:true, pattern: phoneRegex})} />
                 <select name="barber" ref={register({required:true})}>
                     {/*get barbers with api from db.json*/}
                 </select>
