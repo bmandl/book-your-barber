@@ -2,11 +2,20 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import Home from './scenes/Home';
+import Success from './scenes/Success';
+import { MemoryRouter as Router, Route } from 'react-router-dom'; //memory router - hide url of redirects
 import * as serviceWorker from './serviceWorker';
 
 ReactDOM.render(
   <React.StrictMode>
-    <Home></Home>
+    <Router>
+      <Route exact path="/" >
+        <Home />
+      </Route>
+      <Route path="/success">
+        <Success />
+      </Route>
+    </Router>
   </React.StrictMode>,
   document.getElementById('root')
 );
