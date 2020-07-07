@@ -8,15 +8,14 @@ const Form = () => {
     const today = new Date().toISOString().split('T')[0];
     const { register, handleSubmit, watch, errors } = useForm({
         defaultValues: {
-            date: today,
         }
     });
     const [barbers, getBarbers] = useState([]);
     const [services, getServices] = useState();
     const [terms, getTerms] = useState();
-    const [selectedBarber, setSelectedBarber] = useState(1);    //default barber id = 1
-    const [selectedDate, setSelectedDate] = useState(today);    //default date = today
-    const [selectedService, setSelectedService] = useState(1);  //default service id = 1
+    const [selectedBarber, setSelectedBarber] = useState();    //default barber id = 1
+    const [selectedDate, setSelectedDate] = useState();    //default date = today
+    const [selectedService, setSelectedService] = useState();  //default service id = 1
     const [price, setPrice] = useState();
     const [redirect, fireRedirect] = useState();
 
@@ -33,13 +32,14 @@ const Form = () => {
     }, []);
 
     useEffect(() => {
-        if (services)
+        if (services && selectedService)
             setPrice(services.find(service => service.name === watch("service"))["price"]);  //change price input based on selected service
     }, [services, selectedService]);
 
     useEffect(() => {
-        if (selectedBarber) {
+        if (selectedBarber && selectedService && selectedDate) {
             (async () => {
+                console.log("test");
                 const response = await database.availableTerms(selectedBarber, selectedDate, selectedService);  //get available termins for selected date, barber and service
                 getTerms(response);
             })();
@@ -63,11 +63,7 @@ const Form = () => {
     }
 
     const handleBarberSelect = el => {
-        setSelectedBarber(barbers[el.target.selectedIndex]["id"]);
-    }
-
-    const resetSelection = el => {
-        el.target.selectedIndex = -1;
+        setSelectedBarber(barbers[el.target.selectedIndex-1].id);
     }
 
     const handleDateSelect = () => {
@@ -81,30 +77,30 @@ const Form = () => {
     return (
         <div className="form-container">
             <form onSubmit={handleSubmit(onSubmit)}>
-                <input type="text" name="firstname" ref={register({ required: 'Please enter your full name' })} />
+                <input type="text" name="firstname" ref={register({ required: 'Please enter your full name' })} placeholder="First Name" />
                 {errors.firstname?.message}
-                <input type="text" name="lastname" ref={register({ required: 'Please enter your full name' })} />
+                <input type="text" name="lastname" ref={register({ required: 'Please enter your full name' })} placeholder="Last Name" />
                 {errors.lastname?.message}
-                <input type="email" name="email" ref={register({ required: true, pattern: mailRegex })} />
+                <input type="email" name="email" ref={register({ required: true, pattern: mailRegex })} placeholder="Email" />
                 {errors.email && "Please enter a valid email"}
-                <input type="text" name="number" ref={register({ required: true, pattern: phoneRegex })} />
+                <input type="text" name="number" ref={register({ required: true, pattern: phoneRegex })} placeholder="Contact Number" />
                 {errors.number && "Please enter phone number"}
-                <select name="barber" ref={register({ required: 'Please select a barber' })} onFocus={resetSelection} onChange={handleBarberSelect}>
-                    {barbers && barbers.map((barber) => <option key={barber["id"]}>{barber["firstName"] + " " + barber["lastName"]}</option>)}
+                <select name="barber" ref={register({ required: 'Please select a barber' })} onChange={handleBarberSelect}>
+                    {barbers && [<option value="" disabled selected>Select Barber</option>,...barbers.map((barber) => <option key={barber["id"]}>{barber["firstName"] + " " + barber["lastName"]}</option>)]}
                 </select>
                 {errors.barber?.message}
                 <select name="service" ref={register({ required: 'Please select a service' })} onChange={handleServiceSelect}>
-                    {services && services.map(service => <option key={service["id"]}>{service["name"]}</option>)}
+                    {services && [<option value="" disabled selected>Select Service</option>,...services.map(service => <option key={service["id"]}>{service["name"]}</option>)]}
                 </select>
                 {errors.service?.message}
-                <input type="date" name="date" ref={register({ required: 'Please pick a date' })} onChange={handleDateSelect} />
+                <input type="text" name="date" ref={register({ required: 'Please pick a date' })} onChange={handleDateSelect} onFocus={el=>el.target.type='date'} onBlur={el=>el.target.type='text'} placeholder="Select Date" />
                 {errors.date?.message}
-                <select name="time" ref={register({ required: true, maxLength: 5 })}>
-                    {terms && terms.length > 0 ? terms.map((term, index) => <option key={index}>{term}</option>)
-                        : <option>No available termins</option>}
+                <select name="time" ref={register({ required: true, maxLength: 5 })} placeholder="Select Time">
+                    {terms && terms.length > 0 ? [<option value="" disabled selected>Select Time</option>,...terms.map((term, index) => <option key={index}>{term}</option>)]
+                        : [<option value="" disabled selected>Select Time</option>,<option disabled>No available termins</option>]}
                 </select>
                 {errors.time && "Please pick a time"}
-                <input type="text" name="price" ref={register} disabled defaultValue={price} /> {/*auto insert price based on selected service*/}
+                <input type="text" name="price" ref={register} disabled defaultValue={price} placeholder="Select any service." /> {/*auto insert price based on selected service*/}
                 <input type="submit" value="Book appointment" />
             </form>
             {redirect && <Redirect to='/success' from='/' />}
