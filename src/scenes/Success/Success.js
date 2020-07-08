@@ -12,7 +12,7 @@ const Success = () => {
             const gif = await randomGif.getRandomGif();
             setGif(gif);
         })();
-    }, [randomGif])
+    }, [gif])
 
     return (
         <div className="container vertical-center">
