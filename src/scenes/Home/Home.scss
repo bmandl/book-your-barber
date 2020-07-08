@@ -1,0 +1,43 @@
+@import "../../index.scss";
+
+.container {
+    padding: 10px;
+    @include tablet {
+        padding: 0;
+    }
+}
+
+h1 {
+    text-align: center;
+    text-transform: uppercase;
+    font-family: $family-secondary;
+    font-size: 58px;
+    font-weight: 500;
+    letter-spacing: 1px;
+    margin-bottom: 0.11em;
+}
+
+h2 {
+    text-align: center;
+    font-family: $family-primary;
+    font-size: 17px;
+    font-weight: 500;
+    letter-spacing: 1px;
+    margin-bottom: 50px;
+    line-height: 1.8;
+}
+
+.image {
+    @include tablet {
+        margin-left: 101px;
+        width: 916px;
+    }
+}
+
+@include tablet {
+    .right {
+        z-index: 2;
+        margin-top: -498px;
+        margin-left: 803px;
+    }
+}

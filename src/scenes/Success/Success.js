@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 
 import RandomGif from '../../services/api/randomGif';
-
+import './Success.scss';
 
 const Success = () => {
     const [gif, setGif] = useState();
@@ -14,9 +14,14 @@ const Success = () => {
         })();
     }, [randomGif])
 
-    return (<>
-        <img src={gif} alt="random gif" />
-    </>)
+    return (
+        <div className="container vertical-center">
+            <p className="booked-text">Appointment successfully booked</p>
+            <div className="imageBox column is-one-third is-offset-one-third">
+                <img src={gif} alt="random gif" />
+            </div>
+        </div>
+    )
 }
 
 export default Success;

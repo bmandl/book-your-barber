@@ -1,0 +1,22 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@400;500&family=Squada+One&display=swap');
+
+$body-background-color: #fdf5ea;
+$family-primary: 'Roboto Slab', serif;
+$family-secondary: 'Squada One', cursive;
+$primary: #1b2644;
+$secondary: #ff9563;
+$input-color-hover: red;
+
+.imageBox {
+    border: 3px solid $primary;
+    padding: 10px;
+}
+
+// Import only what you need from Bulma
+/*@import "~bulma/sass/utilities/_all.sass";
+@import "~bulma/sass/base/_all.sass";
+@import "~bulma/sass/elements/container.sass";
+@import "~bulma/sass/grid/columns.sass";
+@import "~bulma/sass/components/level.sass";
+@import "~bulma/sass/helpers/float.sass";*/
+@import "~bulma/bulma.sass";

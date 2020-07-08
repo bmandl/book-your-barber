@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './index.css';
+import './index.scss';
 import Home from './scenes/Home';
 import Success from './scenes/Success';
 import { MemoryRouter as Router, Route } from 'react-router-dom'; //memory router - hide url of redirects
