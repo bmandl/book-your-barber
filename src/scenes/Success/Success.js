@@ -17,7 +17,7 @@ const Success = () => {
     return (
         <div className="container vertical-center">
             <p className="booked-text">Appointment successfully booked</p>
-            <div className="imageBox column is-one-third is-offset-one-third">
+            <div className="imageBox column is-narrow">
                 <img src={gif} alt="random gif" />
             </div>
         </div>
